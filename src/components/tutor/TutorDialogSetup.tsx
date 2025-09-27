@@ -21,15 +21,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { GraduationCap, DollarSign, User, Calendar } from "lucide-react";
+import { GraduationCap, DollarSign, User, Calendar, Plus, X } from "lucide-react";
 import { CheckedState } from "@radix-ui/react-checkbox";
 
 export interface TutorFormData {
   // Teaching Subjects
   subjects: string[];
+  umbcClasses: string[]; // New field for UMBC classes
   experience: string;
   qualifications: string;
   teachingStyle: string;
+  gradeRange: string; // New field for grade range
 
   // Availability
   availableDays: string[];
@@ -51,12 +53,15 @@ export interface TutorFormData {
 
 export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
   const [step, setStep] = useState(1);
+  const [currentClass, setCurrentClass] = useState("");
   const [formData, setFormData] = useState<TutorFormData>({
     // Teaching Subjects
     subjects: [],
+    umbcClasses: [],
     experience: "",
     qualifications: "",
     teachingStyle: "",
+    gradeRange: "",
 
     // Availability
     availableDays: [],
@@ -92,6 +97,15 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
     "Languages",
     "Business",
     "Engineering",
+  ];
+
+  const gradeOptions = [
+    "Elementary (K-5)",
+    "Middle School (6-8)",
+    "High School (9-12)",
+    "College/University",
+    "Graduate Level",
+    "All Levels"
   ];
 
   const days = [
@@ -145,6 +159,30 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
     }));
   };
 
+  const handleAddClass = () => {
+    if (currentClass.trim() && !formData.umbcClasses.includes(currentClass.trim())) {
+      setFormData((prev) => ({
+        ...prev,
+        umbcClasses: [...prev.umbcClasses, currentClass.trim()],
+      }));
+      setCurrentClass("");
+    }
+  };
+
+  const handleRemoveClass = (classToRemove: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      umbcClasses: prev.umbcClasses.filter((cls) => cls !== classToRemove),
+    }));
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddClass();
+    }
+  };
+
   const handleDayChange = (day: string, checked: CheckedState) => {
     setFormData((prev) => ({
       ...prev,
@@ -194,7 +232,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
   };
 
   const handleNext = () => {
-    if (step < 4) {
+    if (step < 3) {
       setStep(step + 1);
     }
   };
@@ -225,7 +263,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
                 <Label>
                   Which subjects can you teach? (Select all that apply)
                 </Label>
-                <div className="grid grid-cols-2 gap-2 mt-2 max-h-40 overflow-y-auto">
+                <div className="grid grid-cols-2 gap-2 mt-2 max-h-32 overflow-y-auto">
                   {subjects.map((subject) => (
                     <div key={subject} className="flex items-center space-x-2">
                       <Checkbox
@@ -243,23 +281,73 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
                 </div>
               </div>
 
+              {/* UMBC Classes Input */}
               <div>
-                <Label htmlFor="experience">Years of teaching experience</Label>
+                <Label htmlFor="umbcClasses">
+                  UMBC Classes (Enter specific course codes/names)
+                </Label>
+                <div className="space-y-2">
+                  <div className="flex space-x-2">
+                    <Input
+                      id="umbcClasses"
+                      placeholder="e.g., CMSC 201, MATH 151, PHYS 121..."
+                      value={currentClass}
+                      onChange={(e) => setCurrentClass(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      className="flex-1"
+                    />
+                    <Button
+                      type="button"
+                      onClick={handleAddClass}
+                      variant="outline"
+                      size="sm"
+                      className="px-3"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  {formData.umbcClasses.length > 0 && (
+                    <div className="max-h-24 overflow-y-auto">
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {formData.umbcClasses.map((cls, index) => (
+                          <div
+                            key={index}
+                            className="inline-flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-sm"
+                          >
+                            {cls}
+                            <button
+                              onClick={() => handleRemoveClass(cls)}
+                              className="ml-1 text-blue-600 hover:text-blue-800"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Grade Range Selection */}
+              <div>
+                <Label htmlFor="gradeRange">What grade levels can you teach?</Label>
                 <Select
-                  value={formData.experience}
+                  value={formData.gradeRange}
                   onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, experience: value }))
+                    setFormData((prev) => ({ ...prev, gradeRange: value }))
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select your experience level" />
+                    <SelectValue placeholder="Select grade range" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="0-1">Less than 1 year</SelectItem>
-                    <SelectItem value="1-3">1-3 years</SelectItem>
-                    <SelectItem value="3-5">3-5 years</SelectItem>
-                    <SelectItem value="5-10">5-10 years</SelectItem>
-                    <SelectItem value="10+">More than 10 years</SelectItem>
+                    {gradeOptions.map((grade) => (
+                      <SelectItem key={grade} value={grade}>
+                        {grade}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -278,7 +366,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
                       qualifications: e.target.value,
                     }))
                   }
-                  className="min-h-[100px]"
+                  className="min-h-[80px]"
                 />
               </div>
 
@@ -319,93 +407,6 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
       case 2:
         return (
           <div className="space-y-6">
-            <div className="flex items-center space-x-2 text-blue-600">
-              <Calendar className="h-5 w-5" />
-              <h3 className="font-semibold">Availability</h3>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <Label>Which days are you available to teach?</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {days.map((day) => (
-                    <div key={day} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={day}
-                        checked={formData.availableDays.includes(day)}
-                        onCheckedChange={(checked) =>
-                          handleDayChange(day, checked)
-                        }
-                      />
-                      <Label htmlFor={day} className="text-sm">
-                        {day}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label>Available time slots</Label>
-                <div className="space-y-2 mt-2">
-                  {times.map((time) => (
-                    <div key={time} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={time}
-                        checked={formData.availableTimes.includes(time)}
-                        onCheckedChange={(checked) =>
-                          handleTimeChange(time, checked)
-                        }
-                      />
-                      <Label htmlFor={time} className="text-sm">
-                        {time}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label>Session lengths you offer</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {sessionLengths.map((length) => (
-                    <div key={length} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={length}
-                        checked={formData.sessionLength.includes(length)}
-                        onCheckedChange={(checked) =>
-                          handleSessionLengthChange(length, checked)
-                        }
-                      />
-                      <Label htmlFor={length} className="text-sm">
-                        {length}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="timezone">Your timezone</Label>
-                <Input
-                  id="timezone"
-                  placeholder="e.g., EST, PST, GMT+1"
-                  value={formData.timezone}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      timezone: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-            </div>
-          </div>
-        );
-
-      case 3:
-        return (
-          <div className="space-y-6">
             <div className="flex items-center space-x-2 text-emerald-600">
               <DollarSign className="h-5 w-5" />
               <h3 className="font-semibold">Pricing</h3>
@@ -428,60 +429,6 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
                     }
                   />
                 </div>
-                <div>
-                  <Label htmlFor="currency">Currency</Label>
-                  <Select
-                    value={formData.currency}
-                    onValueChange={(value) =>
-                      setFormData((prev) => ({ ...prev, currency: value }))
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="USD">USD ($)</SelectItem>
-                      <SelectItem value="EUR">EUR (€)</SelectItem>
-                      <SelectItem value="GBP">GBP (£)</SelectItem>
-                      <SelectItem value="CAD">CAD (C$)</SelectItem>
-                      <SelectItem value="AUD">AUD (A$)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="trialSession"
-                    checked={formData.trialSession}
-                    onCheckedChange={(checked) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        trialSession: checked === true,
-                      }))
-                    }
-                  />
-                  <Label htmlFor="trialSession">
-                    Offer discounted trial sessions
-                  </Label>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="discounts"
-                    checked={formData.discounts}
-                    onCheckedChange={(checked) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        discounts: checked === true,
-                      }))
-                    }
-                  />
-                  <Label htmlFor="discounts">
-                    Offer bulk session discounts
-                  </Label>
-                </div>
               </div>
 
               <div className="p-4 bg-gray-50 rounded-lg">
@@ -495,7 +442,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
           </div>
         );
 
-      case 4:
+      case 3:
         return (
           <div className="space-y-6">
             <div className="flex items-center space-x-2 text-purple-600">
@@ -519,46 +466,6 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
                   className="min-h-[120px]"
                 />
               </div>
-
-              <div>
-                <Label>Languages you can teach in</Label>
-                <div className="grid grid-cols-3 gap-2 mt-2 max-h-32 overflow-y-auto">
-                  {languages.map((language) => (
-                    <div key={language} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={language}
-                        checked={formData.languages.includes(language)}
-                        onCheckedChange={(checked) =>
-                          handleLanguageChange(language, checked)
-                        }
-                      />
-                      <Label htmlFor={language} className="text-sm">
-                        {language}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label>Types of students you prefer to teach</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {studentTypes.map((student) => (
-                    <div key={student} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={student}
-                        checked={formData.targetStudents.includes(student)}
-                        onCheckedChange={(checked) =>
-                          handleTargetStudentChange(student, checked)
-                        }
-                      />
-                      <Label htmlFor={student} className="text-sm">
-                        {student}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         );
@@ -577,7 +484,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
             <span>Complete Your Tutor Profile</span>
           </DialogTitle>
           <DialogDescription>
-            Step {step} of 4 - Set up your teaching profile to start connecting
+            Step {step} of 3 - Set up your teaching profile to start connecting
             with students
           </DialogDescription>
         </DialogHeader>
@@ -587,7 +494,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
           <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
             <div
               className="bg-green-600 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(step / 4) * 100}%` }}
+              style={{ width: `${(step / 3) * 100}%` }}
             />
           </div>
 
@@ -599,7 +506,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
             Back
           </Button>
 
-          {step === 4 ? (
+          {step === 3 ? (
             <Button
               onClick={handleSubmit}
               className="bg-green-600 hover:bg-green-700"

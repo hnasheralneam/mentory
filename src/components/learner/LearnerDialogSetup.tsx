@@ -189,7 +189,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <Label htmlFor="timeCommitment">
                   How much time can you commit per week?
                 </Label>
@@ -209,7 +209,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
                     <SelectItem value="10+">More than 10 hours</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
             </div>
           </div>
         );
@@ -296,93 +296,6 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
             </div>
           </div>
         );
-
-      case 3:
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center space-x-2 text-purple-600">
-              <Calendar className="h-5 w-5" />
-              <h3 className="font-semibold">Schedule Preferences</h3>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <Label>Which days work best for you?</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {days.map((day) => (
-                    <div key={day} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={day}
-                        checked={formData.preferredDays.includes(day)}
-                        onCheckedChange={(checked) =>
-                          handleDayChange(day, checked)
-                        }
-                      />
-                      <Label htmlFor={day} className="text-sm">
-                        {day}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label>Preferred time slots</Label>
-                <div className="space-y-2 mt-2">
-                  {times.map((time) => (
-                    <div key={time} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={time}
-                        checked={formData.preferredTimes.includes(time)}
-                        onCheckedChange={(checked) =>
-                          handleTimeChange(time, checked)
-                        }
-                      />
-                      <Label htmlFor={time} className="text-sm">
-                        {time}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="sessionLength">Preferred session length</Label>
-                <Select
-                  value={formData.sessionLength}
-                  onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, sessionLength: value }))
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="How long should sessions be?" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="30min">30 minutes</SelectItem>
-                    <SelectItem value="60min">60 minutes</SelectItem>
-                    <SelectItem value="90min">90 minutes</SelectItem>
-                    <SelectItem value="120min">2 hours</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="timezone">Your timezone</Label>
-                <Input
-                  id="timezone"
-                  placeholder="e.g., EST, PST, GMT+1"
-                  value={formData.timezone}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      timezone: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-            </div>
-          </div>
-        );
     }
   };
 
@@ -395,7 +308,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
             <span>Complete Your Learning Profile</span>
           </DialogTitle>
           <DialogDescription>
-            Step {step} of 3 - Help us match you with the perfect tutor
+            Step {step} of 2 - Help us match you with the perfect tutor
           </DialogDescription>
         </DialogHeader>
 
@@ -404,7 +317,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
           <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
             <div
               className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(step / 3) * 100}%` }}
+              style={{ width: `${(step / 2) * 100}%` }}
             />
           </div>
 
@@ -416,7 +329,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
             Back
           </Button>
 
-          {step === 3 ? (
+          {step === 2 ? (
             <Button
               onClick={handleSubmit}
               className="bg-blue-600 hover:bg-blue-700"
