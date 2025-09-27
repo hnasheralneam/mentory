@@ -8,6 +8,7 @@ import {
   LearnerSetupDialog,
 } from "@/components/learner/LearnerDialogSetup";
 import supabase from "@/utils/supabase";
+import { LearnerDashboard } from "./student-dashboard";
 
 export default function LearnPage() {
   const [showDialog, setShowDialog] = useState(false);
@@ -73,7 +74,7 @@ export default function LearnPage() {
           />
         </>
       ) : (
-        <p>asldf</p>
+        <LearnerDashboard />
       )}
     </>
   );

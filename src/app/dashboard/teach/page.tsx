@@ -8,6 +8,7 @@ import {
   TutorSetupDialog,
 } from "@/components/tutor/TutorDialogSetup";
 import supabase from "@/utils/supabase";
+import { TutorDashboard } from "./tutor-dashboard";
 
 export default function TeachPage() {
   const [showDialog, setShowDialog] = useState(false);
@@ -73,7 +74,7 @@ export default function TeachPage() {
           />
         </>
       ) : (
-        <p>Welcome to your tutor dashboard!</p>
+        <TutorDashboard />
       )}
     </>
   );

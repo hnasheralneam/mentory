@@ -28,7 +28,6 @@ import supabase from "@/utils/supabase";
 export interface LearnerFormData {
   primaryGoal: string;
   specificGoals: string;
-  courses: string[]; // was subjects
   preferredLearningStyle: string;
 }
 
@@ -39,8 +38,6 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
     primaryGoal: "",
     specificGoals: "",
 
-    // Subjects
-    courses: [],
     preferredLearningStyle: "",
   });
   const [courseSearch, setCourseSearch] = useState("");
@@ -190,56 +187,10 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
           <div className="space-y-6">
             <div className="flex items-center space-x-2 text-green-600">
               <BookOpen className="h-5 w-5" />
-              <h3 className="font-semibold">Subjects & Learning Style</h3>
+              <h3 className="font-semibold">Learning Style</h3>
             </div>
 
             <div className="space-y-4">
-              <div>
-                <Label>Add the classes you’re currently taking</Label>
-                <div className="flex gap-2 mt-2">
-                  <Input
-                    placeholder="e.g., MATH 151, ENGL 101"
-                    value={courseSearch}
-                    onChange={(e) => setCourseSearch(e.target.value)}
-                  />
-                  <Button
-                    onClick={() => {
-                      if (!courseSearch.trim()) return;
-                      setFormData((prev) => ({
-                        ...prev,
-                        courses: [...prev.courses, courseSearch.trim()],
-                      }));
-                      setCourseSearch("");
-                    }}
-                  >
-                    Add
-                  </Button>
-                </div>
-              </div>
-
-              {/* Show selected courses */}
-              <div className="space-y-2">
-                {formData.courses.map((course, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-between border p-2 rounded"
-                  >
-                    <span className="font-medium">{course}</span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          courses: prev.courses.filter((_, i) => i !== idx),
-                        }))
-                      }
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
-              </div>
 {/* 
               <div>
                 <Label htmlFor="currentLevel">What's your current level?</Label>
