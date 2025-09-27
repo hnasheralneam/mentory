@@ -23,18 +23,13 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { BookOpen, Clock, Target, Calendar } from "lucide-react";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import supabase from "@/utils/supabase";
 
 export interface LearnerFormData {
-    primaryGoal: string;
-    specificGoals: string;
-    timeCommitment: string;
-    subjects: string[];
-    currentLevel: string;
-    preferredLearningStyle: string;
-    preferredDays: string[];
-    preferredTimes: string[];
-    timezone: string;
-    sessionLength: string;
+  primaryGoal: string;
+  specificGoals: string;
+  courses: string[]; // was subjects
+  preferredLearningStyle: string;
 }
 
 export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
@@ -43,19 +38,12 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
     // Learning Goals
     primaryGoal: "",
     specificGoals: "",
-    timeCommitment: "",
 
     // Subjects
-    subjects: [],
-    currentLevel: "",
+    courses: [],
     preferredLearningStyle: "",
-
-    // Schedule
-    preferredDays: [],
-    preferredTimes: [],
-    timezone: "",
-    sessionLength: "",
   });
+  const [courseSearch, setCourseSearch] = useState("");
 
   const subjects = [
     "Mathematics",
@@ -90,33 +78,6 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
     "Evening (6PM-10PM)",
   ];
 
-  const handleSubjectChange = (subject: string, checked: CheckedState) => {
-    setFormData((prev) => ({
-      ...prev,
-      subjects: checked
-        ? [...prev.subjects, subject]
-        : prev.subjects.filter((s) => s !== subject),
-    }));
-  };
-
-  const handleDayChange = (day: string, checked: CheckedState) => {
-    setFormData((prev) => ({
-      ...prev,
-      preferredDays: checked
-        ? [...prev.preferredDays, day]
-        : prev.preferredDays.filter((d) => d !== day),
-    }));
-  };
-
-  const handleTimeChange = (time: string, checked: CheckedState) => {
-    setFormData((prev) => ({
-      ...prev,
-      preferredTimes: checked
-        ? [...prev.preferredTimes, time]
-        : prev.preferredTimes.filter((t) => t !== time),
-    }));
-  };
-
   const handleNext = () => {
     if (step < 3) {
       setStep(step + 1);
@@ -129,9 +90,19 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
     }
   };
 
-  const handleSubmit = () => {
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", formData);
+  const handleSubmit = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    console.log(user?.id);
+    const { data, error } = await supabase
+      .from("profiles")
+      .update({ learner_profile: formData })
+      .eq("user_id", user?.id);
+
+
+    if (error) {
+      console.error("Error saving learner profile:", error);
+      return;
+    }
     onComplete(formData);
   };
 
@@ -224,27 +195,52 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
 
             <div className="space-y-4">
               <div>
-                <Label>
-                  Which subjects are you interested in? (Select all that apply)
-                </Label>
-                <div className="grid grid-cols-2 gap-2 mt-2 max-h-40 overflow-y-auto">
-                  {subjects.map((subject) => (
-                    <div key={subject} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={subject}
-                        checked={formData.subjects.includes(subject)}
-                        onCheckedChange={(checked) =>
-                          handleSubjectChange(subject, checked)
-                        }
-                      />
-                      <Label htmlFor={subject} className="text-sm">
-                        {subject}
-                      </Label>
-                    </div>
-                  ))}
+                <Label>Add the classes you’re currently taking</Label>
+                <div className="flex gap-2 mt-2">
+                  <Input
+                    placeholder="e.g., MATH 151, ENGL 101"
+                    value={courseSearch}
+                    onChange={(e) => setCourseSearch(e.target.value)}
+                  />
+                  <Button
+                    onClick={() => {
+                      if (!courseSearch.trim()) return;
+                      setFormData((prev) => ({
+                        ...prev,
+                        courses: [...prev.courses, courseSearch.trim()],
+                      }));
+                      setCourseSearch("");
+                    }}
+                  >
+                    Add
+                  </Button>
                 </div>
               </div>
 
+              {/* Show selected courses */}
+              <div className="space-y-2">
+                {formData.courses.map((course, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between border p-2 rounded"
+                  >
+                    <span className="font-medium">{course}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          courses: prev.courses.filter((_, i) => i !== idx),
+                        }))
+                      }
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+              </div>
+{/* 
               <div>
                 <Label htmlFor="currentLevel">What's your current level?</Label>
                 <Select
@@ -263,7 +259,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
                     <SelectItem value="varies">Varies by subject</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
 
               <div>
                 <Label htmlFor="learningStyle">Preferred learning style</Label>
