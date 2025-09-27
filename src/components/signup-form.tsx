@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signUpWithEmail } from "@/actions/auth";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 export function SignUpForm({
   className,
@@ -16,11 +17,19 @@ export function SignUpForm({
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await signUpWithEmail(email, password);
+      const data = await signUpWithEmail(firstName, lastName, email, password);
+      if (!data.error) {
+        router.push("/dashboard");
+      } else {
+        console.error("Sign up failed:", data.error);
+        setErrorMessage("Error: " + data.error.message);
+      }
     } catch (err) {
       console.error("Sign up failed:", err);
     }
@@ -86,6 +95,7 @@ export function SignUpForm({
           Sign up
         </Button>
       </div>
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       <div className="text-center text-sm">
         Already have an account?{" "}
         <Link href="/login" className="underline underline-offset-4">

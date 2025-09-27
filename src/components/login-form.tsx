@@ -1,28 +1,41 @@
 "use client";
 
-import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { signInWithEmail } from "@/actions/auth"
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { signInWithEmail } from "@/actions/auth";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
+
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await signInWithEmail(email, password)
+      const data = await signInWithEmail(email, password);
+
+      if (!data.error) {
+        // Successful login, redirect to dashboard
+        router.push("/dashboard");
+      } else {
+        console.error("Login failed:", data.error);
+        setErrorMessage("Error: " + data.error.message);
+        // Optionally, set an error message state to display to the user
+      }
     } catch (err) {
-      console.error("Login failed:", err)
+      console.error("Login failed:", err);
     }
-  }
+  };
 
   return (
     <form
@@ -66,6 +79,7 @@ export function LoginForm({
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <Button type="submit" className="w-full">
           Login
         </Button>
@@ -77,5 +91,5 @@ export function LoginForm({
         </Link>
       </div>
     </form>
-  )
+  );
 }

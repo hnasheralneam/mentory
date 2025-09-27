@@ -7,10 +7,10 @@ async function signInWithEmail(email: string, password: string) {
   });
 
   if (error) {
-    throw new Error(error.message);
+    return { error: error };
   }
 
-  return data;
+  return { data: data };
 }
 
 async function signUpWithEmail(
@@ -24,19 +24,25 @@ async function signUpWithEmail(
     password,
   });
   if (error) {
-    throw new Error(error.message);
+    return { error: error };
   }
 
   const { data: profileData, error: profileError } = await supabase
     .from("profiles")
     .insert([
-      { id: data.user?.id, first_name: firstName, last_name: lastName, email: email },
+      {
+        user_id: data.user?.id,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+      },
     ]);
+
   if (profileError) {
-    throw new Error(profileError.message);
+    return { error: profileError };
   }
 
-  return profileData;
+  return { data: profileData };
 }
 
 export { signInWithEmail, signUpWithEmail };
