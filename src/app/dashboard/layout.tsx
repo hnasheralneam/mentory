@@ -4,6 +4,7 @@ import TutorSetupCard from "@/components/tutor/TutorSetupCard";
 import { BookOpen, ChevronDown, GraduationCap, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function TeachPage({
   children,
@@ -31,28 +32,28 @@ export default function TeachPage({
 
             {/* Navigation Links */}
             <div className="flex items-center space-x-8 mt-2">
-              <div
+              <Link
                 className={`flex items-center space-x-2 cursor-pointer pb-2 border-b-2 ${
                   isTutorMode === false ? "border-black" : "border-transparent"
                 } text-gray-600 hover:text-black transition-all`}
-                onClick={() => router.push("/dashboard/learn")}
+                href="/dashboard/learn"
               >
                 <BookOpen className="h-5 w-5" />
                 <span className={isTutorMode === false ? "font-medium text-black" : ""}>
                   Learn
                 </span>
-              </div>
-              <div
+              </Link>
+              <Link
                 className={`flex items-center space-x-2 cursor-pointer pb-2 border-b-2 ${
                   isTutorMode ? "border-black" : "border-transparent"
                 } text-gray-600 hover:text-black transition-all`}
-                onClick={() => router.push("/dashboard/teach")}
+                href="/dashboard/teach"
               >
                 <GraduationCap className="h-5 w-5" />
                 <span className={isTutorMode ? "font-medium text-black" : ""}>
                   Teach
                 </span>
-              </div>
+              </Link>
               {/* <div className="flex items-center space-x-2 cursor-pointer pb-2 border-b-2 border-transparent hover:border-gray-300 text-gray-600 hover:text-black transition-all">
                 <Calendar className="h-5 w-5" />
                 <span className="font-medium">Sessions</span>
