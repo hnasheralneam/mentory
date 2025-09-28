@@ -58,9 +58,9 @@ export function Header() {
               </Button>
             </Link >
             <Link href="/signup">
-            <Button className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-full">
-              Get Started
-            </Button>
+                <Button size="lg" className="bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-400 text-white dark:text-black px-8 py-3 rounded-full">
+                  Get Started
+                </Button>
             </Link>
 
             </div>

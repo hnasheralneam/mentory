@@ -95,7 +95,7 @@ export function SignUpForm({
             className="dark:bg-[#181818] dark:border-[#333] border-2"
           />
         </div>
-        <Button type="submit" className="w-full dark:bg-white dark:text-black">
+        <Button type="submit" className="w-full dark:bg-white dark:text-black dark:hover:bg-[#ccc]">
           Sign up
         </Button>
       </div>
