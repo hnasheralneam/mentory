@@ -270,7 +270,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto dark:bg-[#181818] dark:border-[#444]">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <GraduationCap className="h-5 w-5" />

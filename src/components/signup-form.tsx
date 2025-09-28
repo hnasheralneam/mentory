@@ -43,7 +43,7 @@ export function SignUpForm({
     >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Create an account</h1>
-        <p className="text-muted-foreground text-sm text-balance">
+        <p className="text-muted-foreground dark:text-muted text-sm text-balance">
           Enter your email below to create your account
         </p>
       </div>
@@ -57,6 +57,7 @@ export function SignUpForm({
             required
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            className="dark:bg-[#181818] dark:border-[#333] border-2"
           />
         </div>
         <div className="grid gap-3">
@@ -68,6 +69,7 @@ export function SignUpForm({
             required
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            className="dark:bg-[#181818] dark:border-[#333] border-2"
           />
         </div>
         <div className="grid gap-3">
@@ -79,6 +81,7 @@ export function SignUpForm({
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="dark:bg-[#181818] dark:border-[#333] border-2"
           />
         </div>
         <div className="grid gap-3">
@@ -89,9 +92,10 @@ export function SignUpForm({
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="dark:bg-[#181818] dark:border-[#333] border-2"
           />
         </div>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full dark:bg-white dark:text-black">
           Sign up
         </Button>
       </div>

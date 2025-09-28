@@ -6,7 +6,7 @@ import { FeaturesSection } from '@/components/features-section'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#111]">
       <Header />
       <main>
         <HeroSection />

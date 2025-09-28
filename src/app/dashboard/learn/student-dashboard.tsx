@@ -24,7 +24,7 @@ export function LearnerDashboard() {
   const [time, setTime] = useState("");
   const [budget, setBudget] = useState([50]);
   const [notes, setNotes] = useState("");
-  
+
 
   const client = new OpenAI({
     apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -100,7 +100,7 @@ export function LearnerDashboard() {
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">Request Help</h1>
+        <h1 className="text-3xl font-bold mb-3">Request Help</h1>
         <p className="text-muted-foreground">
           Tell us what you need and we’ll match you with the right tutor
         </p>
@@ -108,17 +108,18 @@ export function LearnerDashboard() {
 
       {/* Course */}
       <div className="space-y-2">
-        <Label>What subject / course do you need help with?</Label>
+        <Label className="my-4">What subject / course do you need help with?</Label>
         <Input
           placeholder="e.g., MATH 151"
           value={course}
           onChange={(e) => setCourse(e.target.value)}
+          className="dark:bg-[#181818] dark:border-[#333] border-2"
         />
       </div>
 
       {/* Meeting preference */}
       <div className="space-y-2">
-        <Label>How would you like to meet?</Label>
+        <Label className="my-4">How would you like to meet?</Label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Card
             onClick={() => setMeetingType("in-person")}
@@ -157,7 +158,7 @@ export function LearnerDashboard() {
 
       {/* Date + Time */}
       <div className="space-y-2">
-        <Label>When would you like to meet?</Label>
+        <Label className="my-4">When would you like to meet?</Label>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex items-center gap-2 border rounded-md px-3 py-2">
             <Calendar className="h-4 w-4 text-muted-foreground" />
@@ -182,7 +183,7 @@ export function LearnerDashboard() {
 
       {/* Budget */}
       <div className="space-y-2">
-        <Label>What’s your budget per hour?</Label>
+        <Label className="my-4">What's your budget per hour?</Label>
         <Slider
           value={budget}
           onValueChange={setBudget}
@@ -197,12 +198,12 @@ export function LearnerDashboard() {
 
       {/* Extra notes */}
       <div className="space-y-2">
-        <Label>Anything specific you need help with?</Label>
+        <Label className="my-4">Anything specific you need help with?</Label>
         <Textarea
           placeholder="e.g., preparing for an exam, struggling with specific topics..."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className="min-h-[100px]"
+          className="min-h-[100px] dark:bg-[#181818] dark:border-[#333] border-2"
         />
       </div>
 

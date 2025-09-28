@@ -8,13 +8,13 @@ import { SignUpForm } from "@/components/signup-form"
 export default function SignupPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex flex-col gap-4 p-6 md:p-10">
+      <div className="flex flex-col gap-4 p-6 md:p-10 dark:bg-[#111] dark:text-white">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="/" className="flex items-center gap-2 font-medium">
             <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
               <GraduationCap className="size-4" />
             </div>
-            TutorLink
+            mentory
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">
