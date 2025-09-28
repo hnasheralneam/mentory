@@ -149,7 +149,8 @@ const UI = ({ id }: { id: number }) => {
       .single();
 
     for (let tutor of selectedTutors) {
-      const response = await fetch(`${process.env.MAIL_URL}/send-email`, {
+      console.log(process.env.NEXT_PUBLIC_MAIL_URL);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_MAIL_URL}/send-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
