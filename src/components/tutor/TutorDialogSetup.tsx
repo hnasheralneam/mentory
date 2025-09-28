@@ -107,7 +107,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
             <div className="space-y-4">
               {/* Search and Add Course */}
               <div>
-                <Label>Add Courses You Can Teach</Label>
+                <Label className="mb-3 mt-6">Add Courses You Can Teach</Label>
                 <div className="flex gap-2 mt-2">
                   <Input
                     placeholder="Search for a course (e.g., MATH 101)"
@@ -126,6 +126,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
                       }));
                       setCourseSearch("");
                     }}
+                    className="dark:bg-[#444] dark:text-white dark:hover:bg-[#666]"
                   >
                     Add
                   </Button>
@@ -173,9 +174,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
 
               {/* Qualifications */}
               <div>
-                <Label htmlFor="qualifications">
-                  Qualifications & Certifications
-                </Label>
+                <Label className="mb-3 mt-6" htmlFor="qualifications">Qualifications & Certifications</Label>
                 <Textarea
                   id="qualifications"
                   placeholder="e.g., Master's in Mathematics, Teaching Certificate..."
@@ -192,7 +191,7 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
 
               {/* Teaching Style */}
               <div>
-                <Label htmlFor="teachingStyle">Teaching approach/style</Label>
+                <Label className="mb-3 mt-6" htmlFor="teachingStyle">Teaching approach/style</Label>
                 <Select
                   value={formData.teachingStyle}
                   onValueChange={(value) =>
@@ -252,8 +251,8 @@ export function TutorSetupDialog({ isOpen, onClose, onComplete }: any) {
                 </div>
               </div>
 
-              <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">
+              <div className="p-4 bg-gray-50 dark:bg-[#222] rounded-lg">
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                   <strong>Pricing Tips:</strong> Research competitive rates in
                   your subjects. Consider starting with a slightly lower rate to
                   build reviews, then increase as you gain more students.

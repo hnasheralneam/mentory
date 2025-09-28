@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { signInWithEmail } from "@/actions/auth";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
-
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export function LoginForm({
   className,
@@ -47,7 +47,7 @@ export function LoginForm({
         <h1 className="text-2xl font-bold dark:text-white">
           Login to your account
         </h1>
-        <p className="text-muted-foreground dark:text-muted text-sm text-balance">
+        <p className="text-muted-foreground dark:text-[#aaa] text-sm text-balance">
           Enter your email below to login to your account
         </p>
       </div>
@@ -97,6 +97,9 @@ export function LoginForm({
           Sign up
         </Link>
       </div>
+      <span className="hidden">
+        <ThemeSwitcher />
+      </span>
     </form>
   );
 }

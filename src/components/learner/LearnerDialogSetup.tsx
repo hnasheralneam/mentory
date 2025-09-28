@@ -115,7 +115,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
 
             <div className="space-y-4">
               <div>
-                <Label htmlFor="primaryGoal">
+                <Label className="mb-3 mt-6" htmlFor="primaryGoal">
                   What's your primary learning goal?
                 </Label>
                 <Select
@@ -140,7 +140,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
               </div>
 
               <div>
-                <Label htmlFor="specificGoals">
+                <Label className="mb-3 mt-6" htmlFor="specificGoals">
                   Describe your specific learning objectives
                 </Label>
                 <Textarea
@@ -191,7 +191,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
             </div>
 
             <div className="space-y-4">
-{/* 
+{/*
               <div>
                 <Label htmlFor="currentLevel">What's your current level?</Label>
                 <Select
@@ -213,7 +213,7 @@ export function LearnerSetupDialog({ isOpen, onClose, onComplete }: any) {
               </div> */}
 
               <div>
-                <Label htmlFor="learningStyle">Preferred learning style</Label>
+                <Label className="mb-3 mt-6" htmlFor="learningStyle">Preferred learning style</Label>
                 <Select
                   value={formData.preferredLearningStyle}
                   onValueChange={(value) =>

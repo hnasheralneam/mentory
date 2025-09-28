@@ -7,7 +7,7 @@ interface Props {
 }
 
 const TutorSetupCard = (props: Props) => (
-  <Card className="border-gray-200 bg-gray-50 max-w-4xl mx-auto">
+  <Card className="border-gray-200 dark:border-[#444] dark:hover:border-[#666] bg-gray-50 dark:bg-[#181818] max-w-4xl mx-auto">
     <CardHeader>
       <div className="flex items-center space-x-2">
         <GraduationCap className="h-6 w-6 text-gray-700 dark:text-white" />
@@ -15,7 +15,7 @@ const TutorSetupCard = (props: Props) => (
           Complete Your Tutor Profile
         </CardTitle>
       </div>
-      <CardDescription className="text-gray-600">
+      <CardDescription className="text-gray-700 dark:text-gray-300">
         Set up your teaching profile to start connecting with students
       </CardDescription>
     </CardHeader>
@@ -38,8 +38,9 @@ const TutorSetupCard = (props: Props) => (
           <span className="text-sm text-gray-700 dark:text-gray-300">Rate & Pricing</span>
         </div>
       </div>
+      <br/>
       <Button
-        className="w-full bg-blue-600 hover:bg-blue-700"
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
 
         onClick={() => props.onSetupComplete("tutor")}
       >

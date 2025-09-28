@@ -60,7 +60,7 @@ export function LearnerDashboard() {
       <div>
         <h1 className="text-3xl font-bold mb-3">Request Help</h1>
         <p className="text-muted-foreground">
-          Tell us what you need and we’ll match you with the right tutor
+          Tell us what you need and we'll match you with the right tutor
         </p>
       </div>
 

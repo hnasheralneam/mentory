@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { signUpWithEmail } from "@/actions/auth";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export function SignUpForm({
   className,
@@ -43,7 +44,7 @@ export function SignUpForm({
     >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Create an account</h1>
-        <p className="text-muted-foreground dark:text-muted text-sm text-balance">
+        <p className="text-muted-foreground dark:text-[#aaa] text-sm text-balance">
           Enter your email below to create your account
         </p>
       </div>
@@ -106,6 +107,9 @@ export function SignUpForm({
           Log in
         </Link>
       </div>
+      <span className="hidden">
+        <ThemeSwitcher />
+      </span>
     </form>
   );
 }
