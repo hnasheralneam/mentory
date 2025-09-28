@@ -92,7 +92,7 @@ const UI = ({ id}: { id: number }) => {
         .eq("id", id)
         .single();
 
-      if (request.tutor_matches && request.tutor_matches?.length > 0) {
+      if (request.tutor_matches && request.tutor_matches.length > 0) {
         setTutorMatches(request.tutor_matches);
         setLoading(false);
         return;
