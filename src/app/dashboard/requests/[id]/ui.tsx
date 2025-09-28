@@ -149,7 +149,7 @@ const UI = ({ id }: { id: number }) => {
       .single();
 
     for (let tutor of selectedTutors) {
-      const response = await fetch("http://localhost:3001/send-email", {
+      const response = await fetch(`${process.env.MAIL_URL}/send-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
