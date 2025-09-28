@@ -9,10 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Calendar, Clock, MapPin, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
-import OpenAI from "openai";
 import supabase from "@/utils/supabase";
-import { unstable_noStore as noStore } from 'next/cache';
-
+import { unstable_noStore as noStore } from "next/cache";
+import { useRouter } from "next/navigation";
 
 export function LearnerDashboard() {
   // State for each field
@@ -24,60 +23,19 @@ export function LearnerDashboard() {
   const [time, setTime] = useState("");
   const [budget, setBudget] = useState([50]);
   const [notes, setNotes] = useState("");
-
-
-  const client = new OpenAI({
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true,
-  });
-
-  async function runChat() {
-    const { data } = await supabase.from("profiles").select().neq("tutor_profile", null);
-    const { data: { user } } = await supabase.auth.getUser();
-    const { data: studentData} = await supabase.from("profiles").select().eq("user_id", user?.id).single();
-
-    if (!studentData) return;
-    if (!data) return;
-
-    const filteredData = data.filter(profile => parseInt(profile.tutor_profile.hourlyRate) <= budget[0] && profile.tutor_profile.courses.some((c: any) => c.course.toLowerCase() === course.toLowerCase()));
-    console.log(filteredData);
-    const response = await client.chat.completions.create({
-      model: "gpt-5-mini", // or gpt-4.1 / gpt-3.5-turbo
-      reasoning_effort: "low",
-      messages: [
-        { role: "system", content: "You are a tutor-student matching engine. You are great at matching tutors and students based on their needs and preferences and assign them a compatability rating percent (0-100). Be honest and do not be too nice." },
-        {
-          role: "user",
-          content: `Here are the student's preferences:
-          ${JSON.stringify(studentData.learner_profile)}
-
-          Here are the students needs for this specific session:
-          Course: ${course}
-          Meeting Type: ${meetingType}
-          Date: ${date}
-          Time: ${time}
-          Budget: $${budget[0]}/hour
-          Notes: ${notes}
-
-          Here are the available tutors:
-          ${JSON.stringify(filteredData)}
-
-          Now give each tutor a compatability rating percent (0-100) based on how well they match the student's preferences and needs. Then rank them from highest to lowest and give me the top 5 matches with a brief explanation of why they are a good match. Format your response as follows:
-          {
-            "name": "Tutor Name",
-            "compatability": "85%",
-            "explanation": "Brief explanation of why they are a good match"
-          }
-          `,
-        },
-      ],
-    });
-
-    return response.choices[0].message.content;
-  }
+  const [tutorsCompatibility, setTutorsCompatibility] = useState<any | null>(
+    [{
+      name: "Loading...",
+      compatability: "0%",
+      explanation: "Please wait while we find the best matches for you.",
+    }]
+  );
+  const router = useRouter();
 
   // Handle submit
   const handleSubmit = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+
     const requestData = {
       course,
       meetingType,
@@ -85,12 +43,17 @@ export function LearnerDashboard() {
       time,
       budget: budget[0],
       notes,
+      user_id: user?.id,
     };
+
+    const {data } = await supabase.from("requests").insert([requestData]).select().single();
 
     console.log("Submitting request:", requestData);
 
-    const chatResponse = await runChat();
-    console.log("Chat response:", chatResponse);
+
+
+    router.push('/dashboard/requests/' + data?.id);
+    //console.log("Chat response:", chatResponse);
 
     // later: save to Supabase
     // const { data, error } = await supabase.from("requests").insert([requestData])
@@ -179,7 +142,6 @@ export function LearnerDashboard() {
             />
           </div>
         </div>
-      </div>
 
       {/* Budget */}
       <div className="space-y-2">
@@ -207,15 +169,17 @@ export function LearnerDashboard() {
         />
       </div>
 
-      {/* Submit */}
-      <Button
-        size="lg"
-        className="w-full bg-blue-600 hover:bg-blue-700"
-        disabled={!course || !meetingType || !date || !time}
-        onClick={async () => await handleSubmit()}
-      >
-        Submit Request
-      </Button>
+            <br/>
+        {/* Submit */}
+        <Button
+          size="lg"
+          className="w-full bg-blue-600 hover:bg-blue-700"
+          disabled={!course || !meetingType || !date || !time}
+          onClick={async () => await handleSubmit()}
+        >
+          Submit Request
+        </Button>
+      </div>
     </div>
   );
 }
