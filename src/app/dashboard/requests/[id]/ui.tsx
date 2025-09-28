@@ -235,39 +235,41 @@ const UI = ({ id }: { id: number }) => {
   return (
     <div className="space-y-6">
       {tutorMatches && (
-        <aside className="w-96 space-y-4">
-          <h2 className="text-xl font-bold">Top Tutor Matches</h2>
-          {tutorMatches.map((tutor: any, idx: number) => (
-            <Card key={idx} className="border hover:shadow-md transition">
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle className="text-lg">{tutor.name}</CardTitle>
-                <Checkbox
-                  checked={selectedTutors.some((t) => t.id === tutor.id)} // check by id
-                  onCheckedChange={async () => {
-                    const newData = selectedTutors.some(
-                      (t) => t.id === tutor.id
-                    )
-                      ? selectedTutors.filter((t) => t.id !== tutor.id)
-                      : [...selectedTutors, tutor]; // add full object
-                    setSelectedTutors(newData);
+        <div className="w-full">
+          <h2 className="text-xl font-bold mb-6">Top Tutor Matches</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {tutorMatches.map((tutor: any, idx: number) => (
+              <Card key={idx} className="border hover:shadow-md transition">
+                <CardHeader className="flex items-center justify-between">
+                  <CardTitle className="text-lg">{tutor.name}</CardTitle>
+                  <Checkbox
+                    checked={selectedTutors.some((t) => t.id === tutor.id)} // check by id
+                    onCheckedChange={async () => {
+                      const newData = selectedTutors.some(
+                        (t) => t.id === tutor.id
+                      )
+                        ? selectedTutors.filter((t) => t.id !== tutor.id)
+                        : [...selectedTutors, tutor]; // add full object
+                      setSelectedTutors(newData);
 
-                    await supabase
-                      .from("requests")
-                      .update({ requested_tutors: newData })
-                      .eq("id", id);
-                  }}
-                />
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-medium">{tutor.compatibility}</span>{" "}
-                  match
-                </p>
-                <p className="text-sm mt-2">{tutor.explanation}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </aside>
+                      await supabase
+                        .from("requests")
+                        .update({ requested_tutors: newData })
+                        .eq("id", id);
+                    }}
+                  />
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    <span className="font-medium">{tutor.compatibility}</span>{" "}
+                    match
+                  </p>
+                  <p className="text-sm mt-2">{tutor.explanation}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       )}
 
       {tutorMatches && tutorMatches.length > 0 && (
