@@ -11,8 +11,9 @@ export function HeroSection() {
         <div className="space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-black dark:text-white leading-tight">
-              On demand tutoring,{" "}
-              <span className="block">anywhere, any time</span>
+              One tap.{" "}
+              <span className="block">Perfect tutor.</span>
+              <span className="block">Every time.</span>
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-md">
               Connect with top tutors in minutes. Learn faster, stress less, and
