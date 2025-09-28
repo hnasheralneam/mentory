@@ -8,6 +8,58 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
+const LoadingSpinner = () => (
+  <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 dark:border-gray-700 border-t-[#111111] dark:border-t-white"></div>
+);
+
+const LoadingScreen = () => {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+  
+  const messages = [
+    "Analyzing your request…",
+    "Matching you with the perfect tutor…",
+    "Optimizing results for your learning style…",
+    "Processing real-time data…",
+    "Generating the best match…",
+    "Running AI algorithms…"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false);
+      setTimeout(() => {
+        setCurrentMessageIndex((prev) => (prev + 1) % messages.length);
+        setIsVisible(true);
+      }, 300);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[500px] space-y-6">
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap');
+      `}</style>
+      <LoadingSpinner />
+      <div className="text-center space-y-2">
+        <h3 className="text-xl font-semibold text-[#111111] dark:text-white" 
+            style={{ fontFamily: 'Raleway, sans-serif' }}>
+          Finding Your Perfect Match
+        </h3>
+        <p className={`text-lg text-[#111111] dark:text-white transition-opacity duration-300 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+           style={{ fontFamily: 'Raleway, sans-serif' }}>
+          {messages[currentMessageIndex]}
+        </p>
+      </div>
+      <div className="w-64 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+        <div className="bg-[#111111] dark:bg-white h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+      </div>
+    </div>
+  );
+};
+
 const UI = ({ id }: { id: number }) => {
   const [tutorMatches, setTutorMatches] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -181,7 +233,7 @@ const UI = ({ id }: { id: number }) => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingScreen />;
 
   return (
     <div className="space-y-6">
