@@ -44,7 +44,9 @@ export function LoginForm({
       {...props}
     >
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold dark:text-white">Login to your account</h1>
+        <h1 className="text-2xl font-bold dark:text-white">
+          Login to your account
+        </h1>
         <p className="text-muted-foreground dark:text-muted text-sm text-balance">
           Enter your email below to login to your account
         </p>
@@ -82,7 +84,10 @@ export function LoginForm({
           />
         </div>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-        <Button type="submit" className="w-full dark:bg-white dark:text-black dark:hover:bg-[#ccc]">
+        <Button
+          type="submit"
+          className="w-full dark:bg-white dark:text-black dark:hover:bg-[#ccc]"
+        >
           Login
         </Button>
       </div>

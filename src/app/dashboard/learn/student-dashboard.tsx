@@ -28,6 +28,11 @@ export function LearnerDashboard() {
   // Handle submit
   const handleSubmit = async () => {
     const { data: { user } } = await supabase.auth.getUser();
+    const { data: profileData } = await supabase
+      .from("profiles")
+      .select()
+      .eq("user_id", user?.id)
+      .single();
 
     const requestData = {
       course,
@@ -37,6 +42,7 @@ export function LearnerDashboard() {
       budget: budget[0],
       notes,
       user_id: user?.id,
+      name: profileData?.first_name + " " + profileData?.last_name,
     };
 
     const {data } = await supabase.from("requests").insert([requestData]).select().single();
@@ -46,8 +52,6 @@ export function LearnerDashboard() {
     router.push('/dashboard/requests/' + data?.id);
     //console.log("Chat response:", chatResponse);
 
-    // later: save to Supabase
-    // const { data, error } = await supabase.from("requests").insert([requestData])
   };
 
   return (

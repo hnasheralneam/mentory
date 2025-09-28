@@ -14,18 +14,40 @@ export default function TeachPage() {
   const [showDialog, setShowDialog] = useState(false);
   const [setupComplete, setSetupComplete] = useState(false);
   const [tutorData, setTutorData] = useState<TutorFormData | null>(null);
+  const [studentRequests, setStudentRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentTutorId, setCurrentTutorId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchLearnerData = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+      setCurrentTutorId(user?.id || null);
       const { data } = await supabase
         .from("profiles")
         .select("tutor_profile")
         .eq("user_id", user?.id)
         .single();
+
+      const { data: requestData } = await supabase
+        .from("requests")
+        .select()
+        .neq("requested_tutors", null).eq("connected", false);
+
+      const totalRequests: any = [];
+
+      requestData?.forEach((request) => {
+        const tutors =
+          request.requested_tutors;
+
+        if (tutors.some((tutor: any) => tutor.id === user?.id)) {
+          totalRequests.push(request);
+        }
+      });
+
+      setStudentRequests(totalRequests);
+      
       if (data) {
         setTutorData(data.tutor_profile as TutorFormData);
 
@@ -74,7 +96,7 @@ export default function TeachPage() {
           />
         </>
       ) : (
-        <TutorDashboard />
+        <TutorDashboard studentRequests={studentRequests} currentTutorId={currentTutorId} />
       )}
     </>
   );

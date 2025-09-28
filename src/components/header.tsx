@@ -44,7 +44,7 @@ export function Header() {
             </Link>
 
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            {/* <nav className="hidden md:flex items-center space-x-8">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Link href="/">
@@ -69,7 +69,7 @@ export function Header() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </nav>
+            </nav> */}
             {/* Auth Buttons */}
             <div className="flex items-center space-x-4">
               <ThemeSwitcher />

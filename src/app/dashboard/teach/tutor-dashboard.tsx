@@ -4,8 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Star, BarChart2 } from "lucide-react";
 import Image from "next/image";
+import supabase from "@/utils/supabase";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export function TutorDashboard() {
+export function TutorDashboard({
+  studentRequests,
+  currentTutorId,
+}: {
+  studentRequests: any[];
+  currentTutorId: string | null;
+}) {
   // In real app, pull this from Supabase
   const tutorName = "John Doe";
   const stats = {
@@ -13,6 +22,8 @@ export function TutorDashboard() {
     avgRating: 5.0,
     thisMonth: 100,
   };
+
+  const router = useRouter();
 
   const requests = [
     {
@@ -93,36 +104,86 @@ export function TutorDashboard() {
         <h2 className="text-xl font-semibold">Student Requests</h2>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {requests.map((req) => (
+          {studentRequests.map((req) => (
             <Card key={req.id} className="flex flex-col">
               <CardContent className="flex flex-col gap-4 pt-4">
                 <div className="flex items-center gap-3">
-                  <Image
+                  {/* <Image
                     src={req.avatar}
                     alt={req.name}
                     width={48}
                     height={48}
                     className="rounded-full"
-                  />
+                  /> */}
                   <div>
                     <p className="font-medium">{req.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {req.year} · {req.school}
-                    </p>
                   </div>
                   <div className="ml-auto">
                     <span className="bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-gray-200 text-xs font-semibold px-2 py-1 rounded-full">
-                      {req.match}% Match
+                      {req.requested_tutors.find(
+                        (tutor: any) => tutor.id === currentTutorId
+                      )?.compatibility || "0%"}{" "}
+                      Match
                     </span>
                   </div>
                 </div>
 
                 <div>
                   <p className="font-semibold">{req.course}</p>
-                  <p className="text-sm text-muted-foreground">{req.details}</p>
+                  <p className="text-sm text-muted-foreground">{req.notes}</p>
                 </div>
 
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                <Button
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  onClick={async () => {
+                    // For now, just update the request row with chosen tutors
+                    const { error } = await supabase
+                      .from("requests")
+                      .update({ connected: true })
+                      .eq("id", req.id);
+
+                    const {
+                      data: { user },
+                    } = await supabase.auth.getUser();
+
+                    const { data } = await supabase
+                      .from("profiles")
+                      .select()
+                      .eq("user_id", req.user_id)
+                      .single();
+
+                    const { data: userData } = await supabase
+                      .from("profiles")
+                      .select()
+                      .eq("user_id", user?.id)
+                      .single();
+
+                    const response = await fetch(
+                      "http://localhost:3001/send-email",
+                      {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          to: data.email,
+                          subject: "Tutoring Request Accepted from Mentory",
+                          message: `Your tutoring request has been accepted by ${userData.first_name} ${userData.last_name}. Please check your dashboard for more details.`, // Sending the formatted message
+                        }),
+                      }
+                    );
+
+                    const result = await response.json();
+                    console.log(result);
+
+                    if (error) console.error(error);
+                    else {
+                      toast("Email sent!", {
+                        description: "Student has been notified of your acceptance.",
+                      });
+
+                      router.refresh();
+                    }
+                  }}
+                >
                   Connect
                 </Button>
               </CardContent>

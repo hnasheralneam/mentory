@@ -73,7 +73,7 @@ const UI = ({ id }: { id: number }) => {
             "id": "tutor id",
             "email": "tutor email",
             "name": "Tutor Name",
-            "compatability": "85%",
+            "compatibility": "85%",
             "explanation": "Brief explanation"
           }]
 
@@ -210,7 +210,7 @@ const UI = ({ id }: { id: number }) => {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  <span className="font-medium">{tutor.compatability}</span>{" "}
+                  <span className="font-medium">{tutor.compatibility}</span>{" "}
                   match
                 </p>
                 <p className="text-sm mt-2">{tutor.explanation}</p>
