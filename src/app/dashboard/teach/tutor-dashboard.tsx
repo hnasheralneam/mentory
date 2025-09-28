@@ -169,7 +169,7 @@ export function TutorDashboard({
                         .single();
 
                       const response = await fetch(
-                        `${process.env.MAIL_URL}/send-email`,
+                        `${process.env.NEXT_PUBLIC_MAIL_URL}/send-email`,
                         {
                           method: "POST",
                           headers: { "Content-Type": "application/json" },
