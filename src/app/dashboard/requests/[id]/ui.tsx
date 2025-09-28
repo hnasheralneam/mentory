@@ -32,7 +32,7 @@ const LoadingScreen = () => {
         setCurrentMessageIndex((prev) => (prev + 1) % messages.length);
         setIsVisible(true);
       }, 300);
-    }, 2000);
+    }, 2500);
 
     return () => clearInterval(interval);
   }, []);
@@ -52,9 +52,6 @@ const LoadingScreen = () => {
            style={{ fontFamily: 'Raleway, sans-serif' }}>
           {messages[currentMessageIndex]}
         </p>
-      </div>
-      <div className="w-64 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-        <div className="bg-[#111111] dark:bg-white h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
       </div>
     </div>
   );
