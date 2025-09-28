@@ -11,7 +11,7 @@ const TutorSetupCard = (props: Props) => (
     <CardHeader>
       <div className="flex items-center space-x-2">
         <GraduationCap className="h-6 w-6 text-gray-700 dark:text-white" />
-        <CardTitle className="text-gray-900">
+        <CardTitle className="text-gray-900 dark:text-white">
           Complete Your Tutor Profile
         </CardTitle>
       </div>

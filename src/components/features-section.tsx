@@ -39,8 +39,8 @@ export function FeaturesSection() {
 
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Link href={index <= 1 ? "#" : "/tutor-application"}>
-              <FeatureCard key={index} feature={feature} />
+            <Link key={index} href={index <= 1 ? "#" : "/tutor-application"}>
+              <FeatureCard feature={feature} />
             </Link>
           ))}
         </div>

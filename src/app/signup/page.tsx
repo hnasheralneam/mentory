@@ -1,7 +1,7 @@
 "use client";
 
 import { GalleryVerticalEnd, GraduationCap } from "lucide-react";
-import AuthImage from "@/../public/auth.jpg";
+import AuthImage from "@/../public/auth.png";
 import { LoginForm } from "@/components/login-form";
 import Image from "next/image";
 import supabase from "@/utils/supabase";

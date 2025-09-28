@@ -144,7 +144,7 @@ export function LearnerDashboard() {
         <Slider
           value={budget}
           onValueChange={setBudget}
-          min={15}
+          min={0}
           max={100}
           step={5}
         />

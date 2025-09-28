@@ -12,11 +12,11 @@ interface Props {
     onSetupComplete: (mode: string) => void;
 }
 const LearnerSetupCard = (props: Props) => (
-  <Card className="border-gray-200 bg-gray-50">
+  <Card className="border-gray-200 bg-gray-50 max-w-4xl mx-auto">
     <CardHeader>
       <div className="flex items-center space-x-2">
         <BookOpen className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-        <CardTitle className="text-gray-900">
+        <CardTitle className="text-gray-900 dark:text-white">
           Complete Your Learning Profile
         </CardTitle>
       </div>

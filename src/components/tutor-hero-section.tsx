@@ -10,7 +10,7 @@ export function TutorHeroSection() {
         {/* Left Content */}
         <div className="space-y-8">
           <div className="space-y-4">
-            <h1 className="text-4xl sm:text-6xl lg:text-5xl font-bold text-white leading-tight">
+            <h1 className="text-4xl sm:text-6xl lg:text-5xl font-bold text-black dark:text-white leading-tight">
               Share Your Knowledge.{" "}
               <span className="block">Shape the Future.</span>
             </h1>

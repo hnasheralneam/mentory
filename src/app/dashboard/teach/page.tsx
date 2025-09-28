@@ -17,6 +17,7 @@ export default function TeachPage() {
   const [studentRequests, setStudentRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentTutorId, setCurrentTutorId] = useState<string | null>(null);
+  const [refetch, setRefetch] = useState(0);
 
   useEffect(() => {
     const fetchLearnerData = async () => {
@@ -33,7 +34,7 @@ export default function TeachPage() {
       const { data: requestData } = await supabase
         .from("requests")
         .select()
-        .neq("requested_tutors", null).eq("connected", false);
+        .neq("requested_tutors", null).or(`connected.eq.${user?.id},connected.is.null`);
 
       const totalRequests: any = [];
 
@@ -61,7 +62,7 @@ export default function TeachPage() {
     };
 
     fetchLearnerData();
-  }, []);
+  }, [refetch]);
 
   const handleSetupClick = () => {
     setShowDialog(true);
@@ -96,7 +97,7 @@ export default function TeachPage() {
           />
         </>
       ) : (
-        <TutorDashboard studentRequests={studentRequests} currentTutorId={currentTutorId} />
+        <TutorDashboard studentRequests={studentRequests} currentTutorId={currentTutorId} setRefetch={setRefetch} />
       )}
     </>
   );
