@@ -1,4 +1,4 @@
-// app/learn/page.jsx
+// app/dashboard/learn/learn-client.tsx
 "use client";
 
 import LearnerSetupCard from "@/components/learner/LearnerSetupCard";
@@ -9,17 +9,22 @@ import {
 } from "@/components/learner/LearnerDialogSetup";
 import supabase from "@/utils/supabase";
 import { LearnerDashboard } from "./student-dashboard";
-// import { useRouter } from "next/navigation";
-// import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
-export default function LearnPage() {
+export default function LearnClientPage() {
   const [showDialog, setShowDialog] = useState(false);
   const [setupComplete, setSetupComplete] = useState(false);
   const [learnerData, setLearnerData] = useState<LearnerFormData | null>(null);
   const [loading, setLoading] = useState(true);
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
+
+  const requestSent = searchParams.get("requestSent");
 
   useEffect(() => {
+    if (requestSent) {
+      toast.success("Your request has been sent to the tutor!");
+    }
     const fetchLearnerData = async () => {
       const {
         data: { user },
@@ -38,11 +43,14 @@ export default function LearnPage() {
           setSetupComplete(false);
         }
         setLoading(false);
+      } else {
+        setLoading(false);
+        setSetupComplete(false);
       }
     };
 
     fetchLearnerData();
-  }, []);
+  }, [requestSent]);
 
   const handleSetupClick = () => {
     setShowDialog(true);
