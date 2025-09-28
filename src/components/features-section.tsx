@@ -11,9 +11,9 @@ const features = [
     illustration: "/calendar.svg",
   },
   {
-    title: "Chatbot",
-    subtitle: "Consult with AI real quick",
-    description: "Chat",
+    title: "AI Insights",
+    subtitle: "Learn why you were paired with a tutor",
+    description: "Insights",
     illustration: "/chat.svg",
   },
   {
