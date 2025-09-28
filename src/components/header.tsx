@@ -26,7 +26,6 @@ export function Header() {
               width={32}
               height={32}
               className="w-8 h-8"
-              priority
             />
             {/* Text */}
             <h1 className="text-2xl font-bold text-black">mentory</h1>

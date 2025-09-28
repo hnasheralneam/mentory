@@ -49,7 +49,6 @@ export default function TeachPage({
                 width={32}
                 height={32}
                 className="w-8 h-8"
-                priority
               />
 
               {/* Logo Text */}
@@ -138,10 +137,6 @@ export default function TeachPage({
                     </DropdownMenuSub>
                     <DropdownMenuItem>New Team</DropdownMenuItem>
                   </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>GitHub</DropdownMenuItem>
-                  <DropdownMenuItem>Support</DropdownMenuItem>
-                  <DropdownMenuItem disabled>API</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>Log Out</DropdownMenuItem>
                 </DropdownMenuContent>
