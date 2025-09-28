@@ -5,11 +5,14 @@ import OpenAI from "openai";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const UI = ({ id }: { id: number }) => {
   const [tutorMatches, setTutorMatches] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedTutors, setSelectedTutors] = useState<any[]>([]); // store tutor names or IDs
+  const router = useRouter();
 
   const client = new OpenAI({
     apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -83,8 +86,6 @@ const UI = ({ id }: { id: number }) => {
       return response.choices[0].message.content;
     }
 
-    
-
     async function fetchRequest() {
       const {
         data: { user },
@@ -120,14 +121,6 @@ const UI = ({ id }: { id: number }) => {
     fetchRequest();
   }, [id]);
 
-  useEffect(() => {
-      const updateDb = async () => {
-        await supabase.from("requests").update({ requested_tutors: selectedTutors }).eq("id", id);
-      }
-
-      updateDb();
-    }, [selectedTutors])
-
   // Toggle tutor selection
   const toggleTutor = (name: string) => {
     setSelectedTutors((prev) =>
@@ -152,7 +145,8 @@ const UI = ({ id }: { id: number }) => {
     const { data } = await supabase
       .from("profiles")
       .select()
-      .eq("user_id", user?.id).single();
+      .eq("user_id", user?.id)
+      .single();
 
     for (let tutor of selectedTutors) {
       const response = await fetch("http://localhost:3001/send-email", {
@@ -160,7 +154,11 @@ const UI = ({ id }: { id: number }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           to: tutor.email,
-          subject: "New Tutoring Request from Mentory: " + data.first_name + " " + data.last_name,
+          subject:
+            "New Tutoring Request from Mentory: " +
+            data.first_name +
+            " " +
+            data.last_name,
           message: `You have a new tutoring request from ${data.first_name} ${data.last_name}. Please check your dashboard for more details.`, // Sending the formatted message
         }),
       });
@@ -174,7 +172,12 @@ const UI = ({ id }: { id: number }) => {
     }
 
     if (error) console.error(error);
-    else alert(`Request sent to: ${selectedTutors.join(", ")}`);
+    else {
+      toast("Emails been sent!", {
+        description: "Tutors have been notified of your request.",
+      });
+      router.push("/dashboard/learn?requestSent=1");
+    }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -190,14 +193,19 @@ const UI = ({ id }: { id: number }) => {
                 <CardTitle className="text-lg">{tutor.name}</CardTitle>
                 <Checkbox
                   checked={selectedTutors.some((t) => t.id === tutor.id)} // check by id
-                  onCheckedChange={() =>
-                    setSelectedTutors(
-                      (prev) =>
-                        prev.some((t) => t.id === tutor.id) // check if tutor already exists by id
-                          ? prev.filter((t) => t.id !== tutor.id) // remove if exists
-                          : [...prev, tutor] // add full object
+                  onCheckedChange={async () => {
+                    const newData = selectedTutors.some(
+                      (t) => t.id === tutor.id
                     )
-                  }
+                      ? selectedTutors.filter((t) => t.id !== tutor.id)
+                      : [...selectedTutors, tutor]; // add full object
+                    setSelectedTutors(newData);
+
+                    await supabase
+                      .from("requests")
+                      .update({ requested_tutors: newData })
+                      .eq("id", id);
+                  }}
                 />
               </CardHeader>
               <CardContent>

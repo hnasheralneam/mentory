@@ -9,12 +9,17 @@ import {
 } from "@/components/learner/LearnerDialogSetup";
 import supabase from "@/utils/supabase";
 import { LearnerDashboard } from "./student-dashboard";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export default function LearnPage() {
   const [showDialog, setShowDialog] = useState(false);
   const [setupComplete, setSetupComplete] = useState(false);
   const [learnerData, setLearnerData] = useState<LearnerFormData | null>(null);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+
+  const requestSent = searchParams.get("requestSent");
 
   useEffect(() => {
     const fetchLearnerData = async () => {
