@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 const UI = ({ id }: { id: number }) => {
   const [tutorMatches, setTutorMatches] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedTutors, setSelectedTutors] = useState<string[]>([]); // store tutor names or IDs
+  const [selectedTutors, setSelectedTutors] = useState<any[]>([]); // store tutor names or IDs
 
   const client = new OpenAI({
     apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -18,9 +18,18 @@ const UI = ({ id }: { id: number }) => {
 
   useEffect(() => {
     async function runChat(request: any) {
-      const { data } = await supabase.from("profiles").select().neq("tutor_profile", null);
-      const { data: { user } } = await supabase.auth.getUser();
-      const { data: studentData } = await supabase.from("profiles").select().eq("user_id", user?.id).single();
+      const { data } = await supabase
+        .from("profiles")
+        .select()
+        .neq("tutor_profile", null);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data: studentData } = await supabase
+        .from("profiles")
+        .select()
+        .eq("user_id", user?.id)
+        .single();
 
       if (!studentData || !data) return;
 
@@ -58,10 +67,14 @@ const UI = ({ id }: { id: number }) => {
 
           Give top 5 tutors as JSON array:
           [{
+            "id": "tutor id",
+            "email": "tutor email",
             "name": "Tutor Name",
             "compatability": "85%",
             "explanation": "Brief explanation"
           }]
+
+          If there are less than 5 tutors, only return the available tutors. If no tutors match, return an empty array.
           `,
           },
         ],
@@ -70,14 +83,23 @@ const UI = ({ id }: { id: number }) => {
       return response.choices[0].message.content;
     }
 
+    
+
     async function fetchRequest() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data: request } = await supabase.from("requests").select().eq("id", id).single();
+      const { data: request } = await supabase
+        .from("requests")
+        .select()
+        .eq("id", id)
+        .single();
 
       if (request.tutor_matches) {
         setTutorMatches(request.tutor_matches);
+        setSelectedTutors(request.requested_tutors || []);
         setLoading(false);
         return;
       }
@@ -87,13 +109,24 @@ const UI = ({ id }: { id: number }) => {
 
       const parsed = JSON.parse(chatResponse);
 
-      await supabase.from("requests").update({ tutor_matches: parsed }).eq("id", id);
+      await supabase
+        .from("requests")
+        .update({ tutor_matches: parsed })
+        .eq("id", id);
       setTutorMatches(parsed);
       setLoading(false);
     }
 
     fetchRequest();
   }, [id]);
+
+  useEffect(() => {
+      const updateDb = async () => {
+        await supabase.from("requests").update({ requested_tutors: selectedTutors }).eq("id", id);
+      }
+
+      updateDb();
+    }, [selectedTutors])
 
   // Toggle tutor selection
   const toggleTutor = (name: string) => {
@@ -109,8 +142,36 @@ const UI = ({ id }: { id: number }) => {
     // For now, just update the request row with chosen tutors
     const { error } = await supabase
       .from("requests")
-      .update({ chosen_tutors: selectedTutors })
+      .update({ requested_tutors: selectedTutors })
       .eq("id", id);
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { data } = await supabase
+      .from("profiles")
+      .select()
+      .eq("user_id", user?.id).single();
+
+    for (let tutor of selectedTutors) {
+      const response = await fetch("http://localhost:3001/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: tutor.email,
+          subject: "New Tutoring Request from Mentory: " + data.first_name + " " + data.last_name,
+          message: `You have a new tutoring request from ${data.first_name} ${data.last_name}. Please check your dashboard for more details.`, // Sending the formatted message
+        }),
+      });
+
+      const result = await response.json();
+      if (result.error) {
+        console.error("Error sending email:", result.error);
+      } else {
+        console.log("Email sent successfully:", result);
+      }
+    }
 
     if (error) console.error(error);
     else alert(`Request sent to: ${selectedTutors.join(", ")}`);
@@ -128,13 +189,21 @@ const UI = ({ id }: { id: number }) => {
               <CardHeader className="flex items-center justify-between">
                 <CardTitle className="text-lg">{tutor.name}</CardTitle>
                 <Checkbox
-                  checked={selectedTutors.includes(tutor.name)}
-                  onCheckedChange={() => toggleTutor(tutor.name)}
+                  checked={selectedTutors.some((t) => t.id === tutor.id)} // check by id
+                  onCheckedChange={() =>
+                    setSelectedTutors(
+                      (prev) =>
+                        prev.some((t) => t.id === tutor.id) // check if tutor already exists by id
+                          ? prev.filter((t) => t.id !== tutor.id) // remove if exists
+                          : [...prev, tutor] // add full object
+                    )
+                  }
                 />
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  <span className="font-medium">{tutor.compatability}</span> match
+                  <span className="font-medium">{tutor.compatability}</span>{" "}
+                  match
                 </p>
                 <p className="text-sm mt-2">{tutor.explanation}</p>
               </CardContent>

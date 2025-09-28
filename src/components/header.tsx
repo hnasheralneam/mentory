@@ -11,6 +11,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export function Header() {
   return (
@@ -71,6 +72,8 @@ export function Header() {
             </nav>
             {/* Auth Buttons */}
             <div className="flex items-center space-x-4">
+              <ThemeSwitcher />
+
               <Link href="/login">
                 <Button
                   variant="ghost"

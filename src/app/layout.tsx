@@ -18,6 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={raleway.className}>
+      <link rel="icon" href="logo-dark.png" sizes="any" />
       <body
       >
         {children}

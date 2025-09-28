@@ -21,6 +21,7 @@ import {
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import supabase from "@/utils/supabase";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export default function TeachPage({
   children,
@@ -131,6 +132,8 @@ export default function TeachPage({
                 <Activity className="h-5 w-5" />
                 <span className="font-medium">Activity</span>
               </div> */}
+                              <ThemeSwitcher />
+
                 <DropdownMenu>
                   {/* Trigger */}
                   <DropdownMenuTrigger asChild>
