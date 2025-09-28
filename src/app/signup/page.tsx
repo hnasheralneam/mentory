@@ -1,9 +1,9 @@
-import { GalleryVerticalEnd, GraduationCap } from "lucide-react"
-import AuthImage from "@/../public/auth.jpg"
-import { LoginForm } from "@/components/login-form"
-import Image from "next/image"
-import supabase from "@/utils/supabase"
-import { SignUpForm } from "@/components/signup-form"
+import { GalleryVerticalEnd, GraduationCap } from "lucide-react";
+import AuthImage from "@/../public/auth.jpg";
+import { LoginForm } from "@/components/login-form";
+import Image from "next/image";
+import supabase from "@/utils/supabase";
+import { SignUpForm } from "@/components/signup-form";
 
 export default function SignupPage() {
   return (
@@ -11,9 +11,13 @@ export default function SignupPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="/" className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-              <GraduationCap className="size-4" />
-            </div>
+            <Image
+              src="/logo.png"
+              alt="Mentory Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8"
+            />
             mentory
           </a>
         </div>
@@ -31,5 +35,5 @@ export default function SignupPage() {
         />
       </div>
     </div>
-  )
+  );
 }

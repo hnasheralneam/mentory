@@ -138,10 +138,6 @@ export default function TeachPage({
                     <DropdownMenuItem>New Team</DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>GitHub</DropdownMenuItem>
-                  <DropdownMenuItem>Support</DropdownMenuItem>
-                  <DropdownMenuItem disabled>API</DropdownMenuItem>
-                  <DropdownMenuSeparator />
                   <DropdownMenuItem>Log Out</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
