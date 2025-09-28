@@ -1,14 +1,15 @@
 // components/header.tsx
-'use client'
+"use client";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { ChevronDown } from 'lucide-react'
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 export function Header() {
   return (
@@ -24,13 +25,16 @@ export function Header() {
           <nav className="hidden md:flex items-center space-x-8">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
+                <Link href="/">
+                <Button
+                  variant="ghost"
                   className="text-gray-700 hover:text-gray-900 inline-flex items-center"
                 >
                   Schedule
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </Button>
+                </Link>
+                
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem>Book a Session</DropdownMenuItem>
@@ -42,15 +46,23 @@ export function Header() {
 
           {/* Auth Buttons */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="text-gray-700 hover:text-gray-900">
-              Log in
-            </Button>
+            <Link href="/login">
+              <Button
+                variant="ghost"
+                className="text-gray-700 hover:text-gray-900"
+              >
+                Login
+              </Button>
+            </Link >
+            <Link href="/signup">
             <Button className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-full">
               Get Started
             </Button>
+            </Link>
+            
           </div>
         </div>
       </div>
     </header>
-  )
+  );
 }

@@ -1,6 +1,7 @@
 // components/hero-section.tsx
 import { Button } from '@/components/ui/button'
 import { TutorVideoCall } from '@/components/tutor-video-call'
+import Link from 'next/link'
 
 export function HeroSection() {
   return (
@@ -19,9 +20,12 @@ export function HeroSection() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4">
+            <Link href="/signup">
             <Button size="lg" className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-full">
               Get Started
             </Button>
+            </Link>
+            
             <Button size="lg" variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3 rounded-full">
               Learn More
             </Button>
