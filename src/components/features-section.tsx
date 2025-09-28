@@ -1,27 +1,28 @@
 // components/features-section.tsx
-import { Card, CardContent } from '@/components/ui/card'
-import Image from 'next/image'
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
+import Link from "next/link";
 
 const features = [
   {
-    title: 'Schedule',
-    subtitle: 'Schedule with a tutor',
-    description: 'Details',
-    illustration: '/calendar.svg',
+    title: "Schedule",
+    subtitle: "Schedule with a tutor",
+    description: "Details",
+    illustration: "/calendar.svg",
   },
   {
-    title: 'Chatbot',
-    subtitle: 'Consult with AI real quick',
-    description: 'Chat',
-    illustration: '/chat.svg',
+    title: "Chatbot",
+    subtitle: "Consult with AI real quick",
+    description: "Chat",
+    illustration: "/chat.svg",
   },
   {
-    title: 'Tutors',
-    subtitle: 'Sign up to be a tutor',
-    description: 'Employment',
-    illustration: '/prof.svg',
+    title: "Tutors",
+    subtitle: "Sign up to be a tutor",
+    description: "Employment",
+    illustration: "/prof.svg",
   },
-]
+];
 
 export function FeaturesSection() {
   return (
@@ -35,17 +36,20 @@ export function FeaturesSection() {
         </div>
 
         {/* Feature Grid */}
+
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <FeatureCard key={index} feature={feature} />
+            <Link href={index <= 1 ? "#" : "/tutor-application"}>
+              <FeatureCard key={index} feature={feature} />
+            </Link>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-function FeatureCard({ feature }: { feature: typeof features[0] }) {
+function FeatureCard({ feature }: { feature: (typeof features)[0] }) {
   return (
     <Card className="bg-gray-50 border-gray-200 hover:shadow-lg transition-shadow duration-300">
       <CardContent className="p-8 text-center space-y-6">
@@ -67,5 +71,5 @@ function FeatureCard({ feature }: { feature: typeof features[0] }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
