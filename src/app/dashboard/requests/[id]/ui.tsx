@@ -24,7 +24,7 @@ const UI = ({ id }: { id: number }) => {
       const { data } = await supabase
         .from("profiles")
         .select()
-        .neq("tutor_profile", null);
+        .neq("tutor_profile", null).neq("user_id", request.user_id);
       const {
         data: { user },
       } = await supabase.auth.getUser();
