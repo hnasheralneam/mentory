@@ -38,7 +38,7 @@ const UI = ({ id}: { id: number }) => {
             (c: any) => c.course.toLowerCase() === request.course.toLowerCase()
           )
       );
-      console.log(filteredData);
+
       const response = await client.chat.completions.create({
         model: "gpt-5-mini", // or gpt-4.1 / gpt-3.5-turbo
         reasoning_effort: "low",
@@ -92,7 +92,7 @@ const UI = ({ id}: { id: number }) => {
         .eq("id", id)
         .single();
 
-      if (request.tutor_matches) {
+      if (request.tutor_matches && request.tutor_matches?.length > 0) {
         setTutorMatches(request.tutor_matches);
         setLoading(false);
         return;

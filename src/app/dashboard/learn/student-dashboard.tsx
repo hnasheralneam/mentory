@@ -23,13 +23,6 @@ export function LearnerDashboard() {
   const [time, setTime] = useState("");
   const [budget, setBudget] = useState([50]);
   const [notes, setNotes] = useState("");
-  const [tutorsCompatibility, setTutorsCompatibility] = useState<any | null>(
-    [{
-      name: "Loading...",
-      compatability: "0%",
-      explanation: "Please wait while we find the best matches for you.",
-    }]
-  );
   const router = useRouter();
 
   // Handle submit
@@ -49,8 +42,6 @@ export function LearnerDashboard() {
     const {data } = await supabase.from("requests").insert([requestData]).select().single();
 
     console.log("Submitting request:", requestData);
-
-
 
     router.push('/dashboard/requests/' + data?.id);
     //console.log("Chat response:", chatResponse);
