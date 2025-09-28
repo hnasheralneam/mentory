@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mentory #
+**On-demand tutoring, anywhere, any time**
 
-## Getting Started
+Connect with top tutors in minutes. Learn faster, stress less, and get help exactly when you need it.
 
-First, run the development server:
+Mentory is an AI-powered platform that matches students with experienced peers for instant tutoring. It analyzes course data, schedules, and learning styles to provide the best match for every student.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Features #
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+On-demand tutoring: Get help exactly when you need it.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Smart student matching: AI-powered analysis matches you with the most suitable tutor.
 
-## Learn More
+AI suggestions: Personalized study tips and course guidance.
 
-To learn more about Next.js, take a look at the following resources:
+Easy access: Learn from peers who have already excelled in the course.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Tech Stack #
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Frontend: Next.js, React, Tailwind CSS, ShadCN, TypeScript
 
-## Deploy on Vercel
+Backend: Node.js, Supabase
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+AI Integration: OpenAI API
