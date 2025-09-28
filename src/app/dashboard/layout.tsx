@@ -135,18 +135,21 @@ export default function TeachPage({
                   {/* Trigger */}
                   <DropdownMenuTrigger asChild>
                     <div className="flex items-center space-x-2 cursor-pointer">
+                      <ChevronDown className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                       <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
                         <User className="h-4 w-4 text-gray-600" />
                       </div>
-                      <ChevronDown className="h-4 w-4 text-gray-600" />
                     </div>
                   </DropdownMenuTrigger>
 
                   {/* Dropdown Content */}
-                  <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuContent
+                    className="w-56 dark:bg-[#181818] dark:border-[#444] dark:text-white"
+                    align="end"
+                  >
                     <DropdownMenuItem
                       onClick={handleLogout}
-                      className="text-red-600"
+                      className="dark:hover:bg-[#2a2a2a] dark:hover:text-red-600 hover:font-semibold text-red-600"
                     >
                       Log Out
                     </DropdownMenuItem>

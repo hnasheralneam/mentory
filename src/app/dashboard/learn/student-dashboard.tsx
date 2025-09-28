@@ -80,7 +80,7 @@ export function LearnerDashboard() {
             className={cn(
               "cursor-pointer hover:border-primary transition",
               meetingType === "in-person" &&
-                "border-primary ring-1 ring-primary"
+                "border-primary dark:border-white ring-1 ring-primary"
             )}
           >
             <CardHeader className="flex flex-row items-center gap-2 pb-2">
@@ -96,7 +96,7 @@ export function LearnerDashboard() {
             onClick={() => setMeetingType("virtual")}
             className={cn(
               "cursor-pointer hover:border-primary transition",
-              meetingType === "virtual" && "border-primary ring-1 ring-primary"
+              meetingType === "virtual" && "border-primary dark:border-white ring-1 ring-primary"
             )}
           >
             <CardHeader className="flex flex-row items-center gap-2 pb-2">

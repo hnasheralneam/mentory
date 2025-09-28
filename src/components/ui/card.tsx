@@ -7,12 +7,12 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground dark:bg-[#181818] dark:text-white flex flex-col gap-6 rounded-xl border dark:border-[#444] py-6 shadow-sm",
+        "bg-card text-card-foreground dark:bg-[#181818] dark:text-white flex flex-col gap-6 rounded-xl border dark:border-[#444] dark:hover:border-[#999] py-6 shadow-sm",
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
