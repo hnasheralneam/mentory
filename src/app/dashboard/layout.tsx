@@ -26,9 +26,12 @@ export default function TeachPage({
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
+            <Link href="/">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-black">TutorConnect</h1>
+              <h1 className="text-2xl font-bold text-black">mentory</h1>
             </div>
+            </Link>
+            
 
             {/* Navigation Links */}
             <div className="flex items-center space-x-8 mt-2">

@@ -1,7 +1,7 @@
 // app/apply/page.tsx
 import { Header } from '@/components/header'
 import { TutorHeroSection } from '@/components/tutor-hero-section'
-import { ApplicationSection } from '@/components/application-section'
+
 
 export default function TutorApplyPage() {
   return (
@@ -9,7 +9,6 @@ export default function TutorApplyPage() {
       <Header />
       <main>
         <TutorHeroSection />
-        <ApplicationSection />
       </main>
     </div>
   )
