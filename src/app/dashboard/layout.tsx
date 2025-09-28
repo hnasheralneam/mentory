@@ -36,39 +36,68 @@ export default function TeachPage({
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#111] dark:text-white">
-
       {/* Navbar */}
       <header className="py-4 px-28 sticky top-0">
-        <div className="bg-[#eeeeee66] dark:bg-[#11111166] py-2 border border-gray-200 dark:border-[#555] rounded-full" style={{ backdropFilter: 'blur(8px)' }}>
+        <div
+          className="bg-[#eeeeee66] dark:bg-[#11111166] py-2 border border-gray-200 dark:border-[#555] rounded-full"
+          style={{ backdropFilter: "blur(8px)" }}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               {/* Logo */}
-              <Link href="/">
+              <Link href="/" className="flex items-center space-x-2">
+                {/* Logo Image */}
+                <Image
+                  src="/logo.png"
+                  alt="Mentory Logo"
+                  width={32}
+                  height={32}
+                  className="w-8 h-8"
+                />
+
+                {/* Logo Text */}
                 <div className="flex-shrink-0">
-                  <h1 className="text-2xl font-bold text-black dark:text-white">mentory</h1>
+                  <h1 className="text-2xl font-bold text-black">mentory</h1>
                 </div>
               </Link>
-
 
               {/* Navigation Links */}
               <div className="flex items-center space-x-8 mt-2">
                 <Link
-                  className={`flex items-center space-x-2 cursor-pointer pb-2 border-b-2 ${isTutorMode === false ? "border-black dark:border-[#eee]" : "border-transparent"
-                    } text-gray-600 hover:text-black dark:hover:text-white transition-all`}
+                  className={`flex items-center space-x-2 cursor-pointer pb-2 border-b-2 ${
+                    isTutorMode === false
+                      ? "border-black dark:border-[#eee]"
+                      : "border-transparent"
+                  } text-gray-600 hover:text-black dark:hover:text-white transition-all`}
                   href="/dashboard/learn"
                 >
                   <BookOpen className="h-5 w-5" />
-                  <span className={isTutorMode === false ? "font-medium text-black dark:text-white" : ""}>
+                  <span
+                    className={
+                      isTutorMode === false
+                        ? "font-medium text-black dark:text-white"
+                        : ""
+                    }
+                  >
                     Learn
                   </span>
                 </Link>
                 <Link
-                  className={`flex items-center space-x-2 cursor-pointer pb-2 border-b-2 ${isTutorMode ? "border-black dark:border-[#eee]" : "border-transparent"
-                    } text-gray-600 hover:text-black dark:hover:text-white transition-all`}
+                  className={`flex items-center space-x-2 cursor-pointer pb-2 border-b-2 ${
+                    isTutorMode
+                      ? "border-black dark:border-[#eee]"
+                      : "border-transparent"
+                  } text-gray-600 hover:text-black dark:hover:text-white transition-all`}
                   href="/dashboard/teach"
                 >
                   <GraduationCap className="h-5 w-5" />
-                  <span className={isTutorMode ? "font-medium text-black dark:text-white" : ""}>
+                  <span
+                    className={
+                      isTutorMode
+                        ? "font-medium text-black dark:text-white"
+                        : ""
+                    }
+                  >
                     Teach
                   </span>
                 </Link>
@@ -99,7 +128,6 @@ export default function TeachPage({
           </div>
         </div>
       </header>
-
 
       <div className="p-6">
         {/* Main Content */}
