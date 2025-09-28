@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Header() {
   return (
@@ -17,12 +18,19 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/">
-          <div className="flex-shrink-0">
+          <Link href="/" className="flex items-center space-x-2">
+            {/* Logo */}
+            <Image
+              src="/logo.png"
+              alt="Mentory Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8"
+              priority
+            />
+            {/* Text */}
             <h1 className="text-2xl font-bold text-black">mentory</h1>
-          </div>
           </Link>
-          
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -53,13 +61,12 @@ export function Header() {
               >
                 Login
               </Button>
-            </Link >
-            <Link href="/signup">
-            <Button className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-full">
-              Get Started
-            </Button>
             </Link>
-            
+            <Link href="/signup">
+              <Button className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-full">
+                Get Started
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

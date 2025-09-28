@@ -5,6 +5,7 @@ import { BookOpen, ChevronDown, GraduationCap, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,7 +41,18 @@ export default function TeachPage({
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link href="/">
+            <Link href="/" className="flex items-center space-x-2">
+              {/* Logo Image */}
+              <Image
+                src="/logo.png"
+                alt="Mentory Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+                priority
+              />
+
+              {/* Logo Text */}
               <div className="flex-shrink-0">
                 <h1 className="text-2xl font-bold text-black">mentory</h1>
               </div>
