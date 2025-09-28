@@ -1,6 +1,9 @@
 # Mentory #
 **On-demand tutoring, anywhere, any time**
 
+
+[Try it out!!](https://mentoryai.tech)  
+
 Connect with top tutors in minutes. Learn faster, stress less, and get help exactly when you need it.
 
 Mentory is an AI-powered platform that matches students with experienced peers for instant tutoring. It analyzes course data, schedules, and learning styles to provide the best match for every student.
