@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
+import supabase from "@/utils/supabase";
 
 export default function TeachPage({
   children,
@@ -34,6 +35,15 @@ export default function TeachPage({
     setIsTutorMode(pathname === "/dashboard/teach");
   }, [pathname]);
 
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Logout error:", error.message);
+    } else {
+      router.push("/login"); // redirect user after logout
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#111] dark:text-white">
       {/* Navbar */}
@@ -47,17 +57,21 @@ export default function TeachPage({
               {/* Logo */}
               <Link href="/" className="flex items-center space-x-2">
                 {/* Logo Image */}
-                <Image
-                  src="/logo.png"
-                  alt="Mentory Logo"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8"
-                />
-
+                <span
+                  style={{
+                    height: "32px",
+                    width: "32px",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center center",
+                    display: "block",
+                  }}
+                  className="bg-[url('/logo-light.png')] dark:bg-[url('/logo-dark.png')]"
+                ></span>
                 {/* Logo Text */}
                 <div className="flex-shrink-0">
-                  <h1 className="text-2xl font-bold text-black">mentory</h1>
+                  <h1 className="text-2xl font-bold text-black dark:text-white">
+                    mentory
+                  </h1>
                 </div>
               </Link>
 
@@ -71,12 +85,12 @@ export default function TeachPage({
                   } text-gray-600 hover:text-black dark:hover:text-white transition-all`}
                   href="/dashboard/learn"
                 >
-                  <BookOpen className="h-5 w-5" />
+                  <BookOpen className="h-5 w-5 dark:text-gray-500" />
                   <span
                     className={
                       isTutorMode === false
                         ? "font-medium text-black dark:text-white"
-                        : ""
+                        : "dark:text-gray-300"
                     }
                   >
                     Learn
@@ -90,12 +104,12 @@ export default function TeachPage({
                   } text-gray-600 hover:text-black dark:hover:text-white transition-all`}
                   href="/dashboard/teach"
                 >
-                  <GraduationCap className="h-5 w-5" />
+                  <GraduationCap className="h-5 w-5 dark:text-gray-500" />
                   <span
                     className={
                       isTutorMode
                         ? "font-medium text-black dark:text-white"
-                        : ""
+                        : "dark:text-gray-300"
                     }
                   >
                     Teach
@@ -117,12 +131,27 @@ export default function TeachPage({
                 <Activity className="h-5 w-5" />
                 <span className="font-medium">Activity</span>
               </div> */}
-                <div className="flex items-center space-x-2 cursor-pointer">
-                  <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                    <User className="h-4 w-4 text-gray-600" />
-                  </div>
-                  <ChevronDown className="h-4 w-4 text-gray-600" />
-                </div>
+                <DropdownMenu>
+                  {/* Trigger */}
+                  <DropdownMenuTrigger asChild>
+                    <div className="flex items-center space-x-2 cursor-pointer">
+                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                        <User className="h-4 w-4 text-gray-600" />
+                      </div>
+                      <ChevronDown className="h-4 w-4 text-gray-600" />
+                    </div>
+                  </DropdownMenuTrigger>
+
+                  {/* Dropdown Content */}
+                  <DropdownMenuContent className="w-56" align="end">
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="text-red-600"
+                    >
+                      Log Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </div>

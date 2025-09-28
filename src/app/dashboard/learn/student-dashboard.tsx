@@ -114,7 +114,7 @@ export function LearnerDashboard() {
       <div className="space-y-2">
         <Label className="my-4">When would you like to meet?</Label>
         <div className="grid grid-cols-2 gap-4">
-          <div className="flex items-center gap-2 border rounded-md px-3 py-2">
+          <div className="flex items-center gap-2 border dark:border-[#444] rounded-md px-3 py-2">
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <Input
               type="date"
@@ -123,7 +123,7 @@ export function LearnerDashboard() {
               className="border-0 focus-visible:ring-0"
             />
           </div>
-          <div className="flex items-center gap-2 border rounded-md px-3 py-2">
+          <div className="flex items-center gap-2 border dark:border-[#444] rounded-md px-3 py-2">
             <Clock className="h-4 w-4 text-muted-foreground" />
             <Input
               type="time"

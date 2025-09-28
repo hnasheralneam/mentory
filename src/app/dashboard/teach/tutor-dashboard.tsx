@@ -111,7 +111,7 @@ export function TutorDashboard() {
                     </p>
                   </div>
                   <div className="ml-auto">
-                    <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-1 rounded-full">
+                    <span className="bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-200 text-xs font-semibold px-2 py-1 rounded-full">
                       {req.match}% Match
                     </span>
                   </div>

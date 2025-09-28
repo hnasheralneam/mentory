@@ -24,17 +24,21 @@ export function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
               {/* Logo Image */}
-              <Image
-                src="/logo.png"
-                alt="Mentory Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8"
-              />
-
+              <span
+                style={{
+                  height: "32px",
+                  width: "32px",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center center",
+                  display: "block",
+                }}
+                className="bg-[url('/logo-light.png')] dark:bg-[url('/logo-dark.png')]"
+              ></span>
               {/* Logo Text */}
               <div className="flex-shrink-0">
-                <h1 className="text-2xl font-bold text-black">mentory</h1>
+                <h1 className="text-2xl font-bold text-black dark:text-white">
+                  mentory
+                </h1>
               </div>
             </Link>
 
